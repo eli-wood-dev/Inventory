@@ -1,11 +1,12 @@
 let currentPage = 1;
+let maxPageNumber = 2;//should change on first request
 
 let data = {
     pageNumber: currentPage,
     amountPerPage: "10"
 }
 
-function getPeople(json){
+function getItems(json){
     fetch("test.php", {
         method: "POST",
         body: JSON.stringify(json),
@@ -14,12 +15,15 @@ function getPeople(json){
         }
     })
     .then((response)=>response.json())
-    .then((data)=>displayPeople(data));
+    .then((data)=>{
+        displayItems(data.items);
+        maxPageNumber = data.maxPageNumber;
+    });
 }
 
-getPeople(data);
+getItems(data);
 
-async function displayPeople(data){
+async function displayItems(data){
     let container = await getContainer();
     console.log(container);
     //remove all children
@@ -41,11 +45,13 @@ async function getContainer(){
 document.getElementById("prev").addEventListener("click", ()=>{
     if(data.pageNumber > 1){
         data.pageNumber --;
-        getPeople(data, displayPeople);
+        getItems(data, displayItems);
     }
 });
 
 document.getElementById("next").addEventListener("click", ()=>{
-    data.pageNumber ++;
-    getPeople(data, displayPeople);
+    if(data.pageNumber < maxPageNumber){
+        data.pageNumber ++;
+    }
+    getItems(data, displayItems);
 });

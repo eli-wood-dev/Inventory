@@ -25,7 +25,7 @@ getItems(data);
 
 async function displayItems(data){
     let container = await getContainer();
-    console.log(container);
+    // console.log(container);
     //remove all children
     while(container.lastChild){
         container.removeChild(container.lastChild);

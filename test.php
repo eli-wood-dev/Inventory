@@ -28,7 +28,7 @@
     $response = $request->fetchAll();
 
     $newData["items"] = $response;
-    file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
+    // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
 
     echo json_encode($newData);
     //echo json_encode($input);

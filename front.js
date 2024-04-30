@@ -6,10 +6,28 @@ let data = {
     amountPerPage: "10"
 }
 
+window.addEventListener("load", ()=>{
+    getItems(data);
+
+    document.querySelector("#prev").addEventListener("click", ()=>{
+        if(data.pageNumber > 1){
+            data.pageNumber --;
+            getItems(data, displayItems);
+        }
+    });
+    
+    document.querySelector("#next").addEventListener("click", ()=>{
+        if(data.pageNumber < maxPageNumber){
+            data.pageNumber ++;
+        }
+        getItems(data, displayItems);
+    });
+});
+
 function getItems(json){
-    fetch("test.php", {
-        method: "POST",
-        body: JSON.stringify(json),
+    fetch("test.php?" + new URLSearchParams(json), {
+        method: "GET",
+        // body: JSON.stringify(json),
         headers: {
             "Content-Type": "application/json; charset=UTF-8"
         }
@@ -20,8 +38,6 @@ function getItems(json){
         maxPageNumber = data.maxPageNumber;
     });
 }
-
-getItems(data);
 
 async function displayItems(data){
     let container = await getContainer();
@@ -42,16 +58,3 @@ async function getContainer(){
     return document.querySelector(".people");
 }
 
-document.getElementById("prev").addEventListener("click", ()=>{
-    if(data.pageNumber > 1){
-        data.pageNumber --;
-        getItems(data, displayItems);
-    }
-});
-
-document.getElementById("next").addEventListener("click", ()=>{
-    if(data.pageNumber < maxPageNumber){
-        data.pageNumber ++;
-    }
-    getItems(data, displayItems);
-});

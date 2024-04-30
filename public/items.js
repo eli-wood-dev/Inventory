@@ -1,8 +1,7 @@
-let currentPage = 1;
 let maxPageNumber = 2;//should change on first request
 
 let data = {
-    pageNumber: currentPage,
+    pageNumber: "1",
     amountPerPage: "10"
 }
 
@@ -25,7 +24,7 @@ window.addEventListener("load", ()=>{
 });
 
 function getItems(json){
-    fetch("test.php", {
+    fetch("../private/page_display.php", {
         method: "POST",
         body: JSON.stringify(json),
         headers: {

@@ -26,7 +26,7 @@ window.addEventListener("load", ()=>{
 
 function getItems(json){
     fetch("test.php", {
-        method: "GET",
+        method: "POST",
         body: JSON.stringify(json),
         headers: {
             "Content-Type": "application/json; charset=UTF-8"

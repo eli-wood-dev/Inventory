@@ -12,10 +12,6 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 $json = trim(file_get_contents("php://input"));
 $input = json_decode($json, true);
 
-if(empty($input)){
-    $input = $_GET;
-}
-
 $amountPerPage = $input["amountPerPage"]??10;
 if($amountPerPage <= 0){
     $amountPerPage = 10;

@@ -25,9 +25,9 @@ window.addEventListener("load", ()=>{
 });
 
 function getItems(json){
-    fetch("test.php?" + new URLSearchParams(json), {
+    fetch("test.php", {
         method: "GET",
-        // body: JSON.stringify(json),
+        body: JSON.stringify(json),
         headers: {
             "Content-Type": "application/json; charset=UTF-8"
         }

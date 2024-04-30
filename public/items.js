@@ -1,3 +1,7 @@
+if(!sessionStorage.getItem("logged in")){
+    window.location.href = "./login.html";
+}
+
 let maxPageNumber = 2;//should change on first request
 
 let data = {

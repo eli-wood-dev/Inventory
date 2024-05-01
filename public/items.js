@@ -46,9 +46,12 @@ async function displayItems(data){
         container.removeChild(container.lastChild);
     }
     //add new data
-    data.forEach((hero, index) => {
+    data.forEach((item, index) => {
         let element = document.createElement("li");
-        element.appendChild(document.createTextNode((index + 1) + " " + hero.name));
+        element.appendChild(document.createTextNode((index + 1) + " " + item.name));
+        element.addEventListener("click", (e)=>{
+            window.location.href = "item.html?id=" + item.id;
+        });
         container.appendChild(element);
     });
 }

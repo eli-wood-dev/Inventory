@@ -24,7 +24,7 @@ window.addEventListener("load", ()=>{
 });
 
 function getItems(json){
-    fetch("../private/page_display.php", {
+    fetch("../../private/page_display.php", {
         method: "POST",
         body: JSON.stringify(json),
         headers: {
@@ -50,7 +50,7 @@ async function displayItems(data){
         let element = document.createElement("li");
         element.appendChild(document.createTextNode((index + 1) + " " + item.name));
         element.addEventListener("click", (e)=>{
-            window.location.href = "item.html?id=" + item.id;
+            window.location.href = "../html/item.html?id=" + item.id;
         });
         container.appendChild(element);
     });

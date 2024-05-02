@@ -1,2 +1,2 @@
 <?php
-require "./public/index.html";
+require "public/html/index.html";

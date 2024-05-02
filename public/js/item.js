@@ -6,7 +6,7 @@ let data = {
 }
 
 window.addEventListener("load", ()=>{
-    fetch("../private/get_item.php", {
+    fetch("../../private/get_item.php", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

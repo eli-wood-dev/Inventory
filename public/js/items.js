@@ -48,7 +48,7 @@ async function displayItems(data){
     //add new data
     data.forEach((item, index) => {
         let element = document.createElement("li");
-        element.appendChild(document.createTextNode((index + 1) + " " + item.name));
+        element.appendChild(document.createTextNode(/*(index + 1) + " " + */item.name));
         element.addEventListener("click", (e)=>{
             window.location.href = "../html/item.html?id=" + item.id;
         });

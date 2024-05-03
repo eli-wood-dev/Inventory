@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$dbname = "overwatch";
+$dbname = "sample_inventory";
 
 $dsn = "mysql:host=" . $host . ";dbname=" . $dbname;
 
@@ -14,15 +14,20 @@ $input = json_decode($json, true);
 
 $id = filter_var($input["id"], FILTER_SANITIZE_NUMBER_INT);
 
+$request = $pdo->prepare("SELECT MAX(id) AS max FROM items");
+$request->execute();
+$response = $request->fetch();
+
 if($id < 1){
     $id = 1;
 }
+if($id > $response->max){
+    $id = $response->max;
+}
 
-$request = $pdo->prepare("SELECT * FROM hero WHERE id = ? LIMIT 1");
+$request = $pdo->prepare("SELECT * FROM items WHERE id = ? LIMIT 1");
 $request->execute([$id]);
 $response = $request->fetch();
-
-
 
 // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
 

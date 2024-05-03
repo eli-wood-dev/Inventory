@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$dbname = "overwatch";
+$dbname = "sample_inventory";
 
 $dsn = "mysql:host=" . $host . ";dbname=" . $dbname;
 
@@ -21,7 +21,7 @@ if($offset < 0){
     $offset = 0;
 }
 
-$request = $pdo->prepare("SELECT COUNT(*) AS count FROM hero");
+$request = $pdo->prepare("SELECT COUNT(*) AS count FROM items");
 $request->execute();
 $response = $request->fetch();
 
@@ -30,7 +30,7 @@ if($newData["maxPageNumber"] < $input["pageNumber"]){
     $offset = ($newData["maxPageNumber"] - 1) * $amountPerPage;
 }
 
-$request = $pdo->prepare("SELECT * FROM hero ORDER BY name LIMIT :start, :rows");
+$request = $pdo->prepare("SELECT * FROM items ORDER BY name LIMIT :start, :rows");
 $request->bindParam(':start', $offset, PDO::PARAM_INT);
 $request->bindParam(':rows', $amountPerPage, PDO::PARAM_INT);
 $request->execute();

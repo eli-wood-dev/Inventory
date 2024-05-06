@@ -14,12 +14,12 @@ $input = json_decode($json, true);
 
 $id = filter_var($input["id"], FILTER_SANITIZE_NUMBER_INT);
 
-$request = $pdo->prepare("SELECT MAX(id) AS max FROM items");
+$request = $pdo->prepare("SELECT MAX(id) AS max, MIN(id) as min FROM items");
 $request->execute();
 $response = $request->fetch();
 
-if($id < 1){
-    $id = 1;
+if($id < $response->min){
+    $id = $response->min;
 }
 if($id > $response->max){
     $id = $response->max;

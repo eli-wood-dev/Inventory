@@ -22,5 +22,10 @@ window.addEventListener("load", ()=>{
 async function displayItems(data){
     console.log(data);
     let container = document.querySelector(".item");
-    container.appendChild(document.createTextNode(data.name));
+    await addTextNode(container, "Name: " + data.name);
+    await addElement(container, "br");
+    await addTextNode(container, "Location: " + data.l_name);
+    await addElement(container, "br");
+    await addTextNode(container, "Shelf: " + data.address);
+    
 }

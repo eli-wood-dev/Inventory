@@ -20,6 +20,7 @@ window.addEventListener("load", ()=>{
 });
 
 async function displayItems(data){
+    console.log(data);
     let container = document.querySelector(".item");
     container.appendChild(document.createTextNode(data.name));
 }

@@ -25,6 +25,10 @@ $request = $pdo->prepare("SELECT COUNT(*) AS count FROM items");
 $request->execute();
 $response = $request->fetch();
 
+if($response->count == 0){
+    $response->count = 1;
+}
+
 $newData["maxPageNumber"] = ceil($response->count/$amountPerPage);
 if($newData["maxPageNumber"] < $input["pageNumber"]){
     $offset = ($newData["maxPageNumber"] - 1) * $amountPerPage;

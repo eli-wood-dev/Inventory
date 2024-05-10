@@ -21,27 +21,23 @@ if($offset < 0){
     $offset = 0;
 }
 
-$request = $pdo->prepare("SELECT COUNT(*) AS count FROM items");
-$request->execute();
-$response = $request->fetch();
+$desired = "name, id, COUNT(*) AS count"//this will be hardcoded
 
-if($response->count == 0){
-    $response->count = 1;
-}
-
-$newData["maxPageNumber"] = ceil($response->count/$amountPerPage);
-if($newData["maxPageNumber"] < $input["pageNumber"]){
-    $offset = ($newData["maxPageNumber"] - 1) * $amountPerPage;
-}
-
-$request = $pdo->prepare("SELECT * FROM items ORDER BY name LIMIT :start, :rows");
+$request = $pdo->prepare("SELECT $desired FROM items ORDER BY name LIMIT :start, :rows");
 $request->bindParam(':start', $offset, PDO::PARAM_INT);
 $request->bindParam(':rows', $amountPerPage, PDO::PARAM_INT);
 $request->execute();
 $response = $request->fetchAll();
 
-$newData["items"] = $response;
-// file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
+if(isset($response)){
+    $newData["maxPageNumber"] = ceil($response->count/$amountPerPage);
+    $newData["items"] = $response;
+    // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
 
-echo json_encode($newData);
-//echo json_encode($input);
+    echo json_encode($newData);
+    //echo json_encode($input);
+} else{
+    echo json_encode(["error"=>"items not found"]);
+}
+
+

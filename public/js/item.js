@@ -15,7 +15,12 @@ window.addEventListener("load", ()=>{
     })
     .then((response)=>response.json())
     .then((data)=>{
+        if(data.error){
+            throw new Error(data.error);
+        }
         displayItems(data);
+    }).catch(error=>{
+        console.log(error);
     });
 });
 

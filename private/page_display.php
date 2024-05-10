@@ -23,10 +23,10 @@ if($offset < 0){
 
 $desired = "name, id, COUNT(*) AS count"//this will be hardcoded
 
-$request = $pdo->prepare("SELECT $desired FROM items ORDER BY name LIMIT :start, :rows");
+$request = $pdo->prepare("SELECT ? FROM items ORDER BY name LIMIT :start, :rows");
 $request->bindParam(':start', $offset, PDO::PARAM_INT);
 $request->bindParam(':rows', $amountPerPage, PDO::PARAM_INT);
-$request->execute();
+$request->execute([$desired]);
 $response = $request->fetchAll();
 
 if(isset($response)){

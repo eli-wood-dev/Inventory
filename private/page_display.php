@@ -21,7 +21,7 @@ if($offset < 0){
     $offset = 0;
 }
 
-$desired = "name, id, COUNT(*) AS count"//this will be hardcoded
+$desired = "name, id, COUNT(*) AS count";//this will be hardcoded
 
 $request = $pdo->prepare("SELECT ? FROM items ORDER BY name LIMIT :start, :rows");
 $request->bindParam(':start', $offset, PDO::PARAM_INT);
@@ -30,7 +30,7 @@ $request->execute([$desired]);
 $response = $request->fetchAll();
 
 if(isset($response)){
-    $newData["maxPageNumber"] = ceil($response->count/$amountPerPage);
+    $newData["maxPageNumber"] = ceil($response["count"]/$amountPerPage);
     $newData["items"] = $response;
     // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
 

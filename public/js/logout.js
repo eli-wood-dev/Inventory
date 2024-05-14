@@ -3,7 +3,7 @@ window.addEventListener("load", ()=>{
     buttons.forEach((button)=>{
         button.addEventListener("click", ()=>{
             sessionStorage.removeItem("logged in");
-            window.location.href = "../../index.php";
+            window.location.href = "../../index.html";
         });
     });
 });

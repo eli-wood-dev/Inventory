@@ -1,6 +1,8 @@
 //basically re-uses items.js
 let searchParams = new URLSearchParams(window.location.search);
 
+let editing = false;
+
 let data = {
     id: searchParams.get("id"),
 }

@@ -15,7 +15,7 @@ $item = $request->fetch();
 if(!empty($item)){
     $request = $pdo->prepare("DELETE FROM items WHERE id=?");//in future check if user has access to remove
     $request->execute([$id]);
-    echo json_encode($item);//sends the item in case a restore is needed (id will likely be changed unless autoincrement can be bypassed)
+    echo json_encode(["success"=>"removed"]);
 } else{
     echo json_encode(["error"=>"item not found"]);
 }

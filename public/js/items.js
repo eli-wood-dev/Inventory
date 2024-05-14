@@ -21,6 +21,10 @@ window.addEventListener("load", ()=>{
         }
         getItems(data, displayItems);
     });
+
+    document.querySelector("#add-button").addEventListener("click", ()=>{
+        //window.location.href = "";
+    });
 });
 
 function getItems(json){
@@ -28,7 +32,7 @@ function getItems(json){
         method: "POST",
         body: JSON.stringify(json),
         headers: {
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json"
         }
     })
     .then((response)=>response.json())

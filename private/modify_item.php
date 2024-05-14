@@ -25,7 +25,7 @@ if(!empty($item)){
     $request = $pdo->prepare("UPDATE items SET s_id=?, c_id=?, name=?, notes=?, quantity=?, unit=?, available=?, image=?, created=?, last_modified=?, value=? WHERE id=?");//last modified should be set here
     $request->execute([$newData["s_id"], $newData["c_id"], $newData["name"], $newData["notes"], $newData["quantity"], $newData["unit"], $newData["image"], $newData["created"], $newData["last_modified"], $newData["value"], $id]);
 
-    echo json_encode($item);//old item - front end should *not* update with this info
+    echo json_encode(["success"=>"updated"]);
 } else {
     echo json_encode(["error"=>"item not found"]);
 }

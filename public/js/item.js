@@ -1,8 +1,6 @@
 //basically re-uses items.js
 let searchParams = new URLSearchParams(window.location.search);
 
-let editing = false;
-
 let data = {
     id: searchParams.get("id"),
 }
@@ -23,6 +21,15 @@ window.addEventListener("load", ()=>{
         displayItems(data);
     }).catch(error=>{
         console.log(error);
+    });
+
+    document.querySelector("#edit-button").addEventListener("click", ()=>{
+        let button = document.querySelector("#edit-button");
+        if(button.innerHTML == "edit"){//if not editing
+            button.innerHTML = "edit_off";
+        } else{
+            button.innerHTML = "edit";
+        }
     });
 });
 

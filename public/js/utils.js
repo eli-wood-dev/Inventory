@@ -7,9 +7,13 @@ async function sha256(str){
 }
 
 async function addElement(parent, element){
-    parent.appendChild(document.createElement(element));
+    let newE = document.createElement(element)
+    parent.appendChild(newE);
+    return newE;
 }
 
 async function addTextNode(parent, text){
-    parent.appendChild(document.createTextNode(text));
+    let newT = document.createTextNode(text)
+    parent.appendChild(newT);
+    return newT;
 }

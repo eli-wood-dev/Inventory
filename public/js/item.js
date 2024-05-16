@@ -15,14 +15,19 @@ window.addEventListener("load", ()=>{
             "Content-Type": "application/json"
         }
     })
-    .then((response)=>response.json())
-    .then((data)=>{
-        if(data.error){
-            throw new Error(data.error);
+    .then((response)=>{
+        if (!response.ok) {
+            return response.json().then(error => { 
+                throw new Error(error.error);
+            });
         }
+        return response.json();
+    })
+    .then((data)=>{
         displayItems(data);
-    }).catch(error=>{
-        console.log(error);
+    })
+    .catch(error=>{
+        console.error(error.message);
     });
  
     document.querySelector("#edit-button").addEventListener("click", ()=>{
@@ -45,27 +50,55 @@ window.addEventListener("load", ()=>{
                 headers: {
                     "Content-Type": "application/json"
                 }
+            })
+            .then(response=>{
+                if (!response.ok) {
+                    return response.json().then(error => { 
+                        throw new Error(error.error);
+                    });
+                }
+                return response.json();
+            })
+            .catch(error=>{
+                console.error(error.message);
             });
         }
     });
 
     document.querySelector("#delete-button").addEventListener("click", ()=>{
         if(window.confirm("Are you sure you want to delete? This can not be reversed.")){
-            fetch("../../private/modify_item.php", {
+            fetch("../../private/remove_item.php", {
                 method: "POST",
                 body: JSON.stringify(idJSON),
                 headers: {
                     "Content-Type": "application/json"
                 }
+            })
+            .then(response=>{
+                if (!response.ok) {
+                    return response.json().then(error => { 
+                        throw new Error(error.error);
+                    });
+                }
+                return response.json();
+            }).then(data=>{
+                window.location.href="items.html";
+            })
+            .catch(error=>{
+                console.error(error.message);
             });
         }
+    });
+
+    document.querySelector("#back-button").addEventListener("click", ()=>{
+        document.location.href = "items.html";
     });
 
 });
 
 async function displayItems(data){
     item = data;
-    console.log(item);
+    // console.log(item);
     let container = document.querySelector(".item");
     await addTextNode(container, "Name: " + data.name);
     await addElement(container, "br");

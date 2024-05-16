@@ -35,15 +35,19 @@ function getItems(json){
             "Content-Type": "application/json"
         }
     })
-    .then((response)=>response.json())
-    .then((data)=>{
-        if(data.error){
-            throw new Error(data.error);
+    .then(response=>{
+        if (!response.ok) {
+            return response.json().then(error => { 
+                throw new Error(error.error);
+            });
         }
+        return response.json();
+    })
+    .then((data)=>{
         displayItems(data.items);
         maxPageNumber = data.maxPageNumber;
     }).catch(error=>{
-        console.log(error);
+        console.error(error.message);
     });
 }
 
@@ -67,6 +71,6 @@ async function displayItems(data){
 }
 
 async function getContainer(){
-    return document.querySelector(".people");
+    return document.querySelector(".items");
 }
 

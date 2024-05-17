@@ -11,8 +11,9 @@ try{
     $request->execute([$id]);
     $item = $request->fetch();
 
+
     if(empty($item)){
-        $newData = $input["newData"];
+        $newData = $input;
 
         $newData["last_modified"] = date("Y-m-d");
 
@@ -23,6 +24,7 @@ try{
         }
 
         unset($newData["id"]);
+        
         $request = $pdo->prepare("UPDATE items SET s_id=?, c_id=?, name=?, notes=?, quantity=?, unit=?, available=?, image=?, created=?, last_modified=?, value=? WHERE id=?");//last modified should be set here
         $request->execute([$newData["s_id"], $newData["c_id"], $newData["name"], $newData["notes"], $newData["quantity"], $newData["unit"], $newData["image"], $newData["created"], $newData["last_modified"], $newData["value"], $id]);
 

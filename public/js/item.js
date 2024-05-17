@@ -17,8 +17,9 @@ window.addEventListener("load", ()=>{
     })
     .then((response)=>{
         if (!response.ok) {
-            return response.json().then(error => { 
-                throw new Error(error.error);
+            return response.json()
+            .then(error => { 
+                throw new Error(error.message);
             });
         }
         return response.json();
@@ -28,7 +29,7 @@ window.addEventListener("load", ()=>{
         displayItems(data);
     })
     .catch(error=>{
-        console.error(error.message);
+        console.error(error);
     });
  
     document.querySelector("#edit-button").addEventListener("click", ()=>{
@@ -46,7 +47,7 @@ window.addEventListener("load", ()=>{
     });
 
     document.querySelector("#save-button").addEventListener("click", ()=>{
-        if(window.confirm("Are you sure you want to save?")){
+        if(/*window.confirm("Are you sure you want to save?")*/true){//uncomment to require confirmation
             //populate item with new data
 
             let container = document.querySelector(".item");
@@ -59,7 +60,7 @@ window.addEventListener("load", ()=>{
                 }
             }
 
-            console.log(data);
+            // console.log(data);
 
             //request to save
             fetch("../../private/modify_item.php", {
@@ -71,14 +72,15 @@ window.addEventListener("load", ()=>{
             })
             .then(response=>{
                 if (!response.ok) {
-                    return response.json().then(error => { 
-                        throw new Error(error.error);
+                    return response.json()
+                    .then(error => { 
+                        throw new Error(error.message);
                     });
                 }
                 return response.json();
             })
             .catch(error=>{
-                console.error(error.message);
+                console.log(error);
             });
         }
     });
@@ -95,7 +97,7 @@ window.addEventListener("load", ()=>{
             .then(response=>{
                 if (!response.ok) {
                     return response.json().then(error => { 
-                        throw new Error(error.error);
+                        throw new Error(error.message);
                     });
                 }
                 return response.json();
@@ -103,7 +105,7 @@ window.addEventListener("load", ()=>{
                 window.location.href="items.html";
             })
             .catch(error=>{
-                console.error(error.message);
+                console.log(error);
             });
         }
     });

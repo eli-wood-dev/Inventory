@@ -25,7 +25,7 @@ try{
     //echo json_encode($input);
     
 } catch(Exception $e){
-    $error = ["message" => $e->getMessage(), "code" => $e->getCode()];
+    $error = ["message" => $e->getMessage(), "code" => 500];
     http_response_code($error['code']);
 
     echo json_encode($error);

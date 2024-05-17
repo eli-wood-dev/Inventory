@@ -22,12 +22,12 @@ try{
         echo json_encode($error);
     }
 } catch(PDOException $e){
-    $error = ["message" => $e->getMessage(), "code" => $e->getCode()];
+    $error = ["message" => $e->getMessage(), "code" => 500];
     http_response_code($error['code']);
 
     echo json_encode($error);
 } catch(Exception $e){
-    $error = ["message" => $e->getMessage(), "code" => $e->getCode()];
+    $error = ["message" => $e->getMessage(), "code" => 500];
     http_response_code($error['code']);
 
     echo json_encode($error);

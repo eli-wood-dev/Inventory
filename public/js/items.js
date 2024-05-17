@@ -38,7 +38,7 @@ function getItems(json){
     .then(response=>{
         if (!response.ok) {
             return response.json().then(error => { 
-                throw new Error(error.error);
+                throw new Error(error.message);
             });
         }
         return response.json();
@@ -47,7 +47,7 @@ function getItems(json){
         displayItems(data.items);
         maxPageNumber = data.maxPageNumber;
     }).catch(error=>{
-        console.error(error.message);
+        console.error(error);
     });
 }
 

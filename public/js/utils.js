@@ -17,3 +17,10 @@ async function addTextNode(parent, text){
     parent.appendChild(newT);
     return newT;
 }
+
+async function addStar(parent){
+    let star = document.createElement("span");
+    star.innerHTML = "*";
+    star.classList.add("required-star");
+    parent.parentNode.insertBefore(star, parent.nextSibling);
+}

@@ -23,7 +23,7 @@ window.addEventListener("load", ()=>{
     });
 
     document.querySelector("#add-button").addEventListener("click", ()=>{
-        //window.location.href = "";
+        window.location.href = "new.html";
     });
 });
 

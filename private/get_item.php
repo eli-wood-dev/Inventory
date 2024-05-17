@@ -7,11 +7,13 @@ try{
     
     $id = filter_var($input["id"], FILTER_SANITIZE_NUMBER_INT);
     
-    $request = $pdo->prepare("SELECT i.*, c.name AS c_name, s.address, l.name AS l_name FROM items AS i JOIN customers AS c ON i.c_id=c.id JOIN shelves AS s ON i.s_id=s.id JOIN locations as l ON s.l_id=l.id WHERE i.id = ? LIMIT 1");
+    // SELECT i.*, c.name AS c_name, s.address, l.name AS l_name FROM items AS i JOIN customers AS c ON i.c_id=c.id JOIN shelves AS s ON i.s_id=s.id JOIN locations as l ON s.l_id=l.id*
+
+    $request = $pdo->prepare("SELECT * FROM items AS i WHERE i.id = ? LIMIT 1");
     $request->execute([$id]);
     $response = $request->fetch();
     
-    // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
+    // file_put_contents("test.json", json_encode($response, JSON_PRETTY_PRINT), LOCK_EX);
     
     if(isset($response)){
         echo json_encode($response);

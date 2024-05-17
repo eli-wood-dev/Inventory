@@ -5,7 +5,8 @@ let idJSON = {
     id: searchParams.get("id"),
 }
 
-let item;
+let item = {};
+let editing = false;
 
 window.addEventListener("load", ()=>{
     fetch("../../private/get_item.php", {
@@ -39,54 +40,23 @@ window.addEventListener("load", ()=>{
         // saveButton.classList.toggle("hidden");
         if(editButton.innerHTML == "edit"){//if not editing
             editButton.innerHTML = "edit_off";
+            editing = true;
             displayItemsEdit(item);
         } else{
             editButton.innerHTML = "edit";
+            editing = false;
             displayItems(item);
         }
     });
 
     document.querySelector("#save-button").addEventListener("click", ()=>{
-        if(/*window.confirm("Are you sure you want to save?")*/true){//uncomment to require confirmation
-            //populate item with new data
-
-            let container = document.querySelector(".item");
-            let data = item;
-
-            for(let element of container.children){
-                if(element.tagName == "LABEL"){
-                    let input = document.querySelector("#" + element.getAttribute("for"));
-                    data[input.name] = input.value;
-                }
-            }
-
-            // console.log(data);
-
-            //request to save
-            fetch("../../private/modify_item.php", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response=>{
-                if (!response.ok) {
-                    return response.json()
-                    .then(error => { 
-                        throw new Error(error.message);
-                    });
-                }
-                return response.json();
-            })
-            .catch(error=>{
-                console.log(error);
-            });
+        if(editing){
+            save();
         }
     });
 
     document.querySelector("#delete-button").addEventListener("click", ()=>{
-        if(window.confirm("Are you sure you want to delete? This can not be reversed.")){
+        if(editing && window.confirm("Are you sure you want to delete? This can not be reversed.")){
             fetch("../../private/remove_item.php", {
                 method: "POST",
                 body: JSON.stringify(idJSON),
@@ -105,7 +75,7 @@ window.addEventListener("load", ()=>{
                 window.location.href="items.html";
             })
             .catch(error=>{
-                console.log(error);
+                console.error(error);
             });
         }
     });
@@ -115,6 +85,50 @@ window.addEventListener("load", ()=>{
     });
 
 });
+
+window.addEventListener("keypress", (event)=>{
+    if(editing && event.key == "Enter"){
+        document.activeElement.blur();
+        save();
+    }
+});
+
+function save(){
+    let container = document.querySelector(".item");
+    let data = item;
+
+    for(let element of container.children){
+        if(element.tagName == "LABEL"){
+            let input = document.querySelector("#" + element.getAttribute("for"));
+            if(input){
+                data[input.name] = input.value;
+            }
+        }
+    }
+
+    // console.log(data);
+
+    //request to save
+    fetch("../../private/modify_item.php", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response=>{
+        if (!response.ok) {
+            return response.json()
+            .then(error => { 
+                throw new Error(error.message);
+            });
+        }
+        return response.json();
+    })
+    .catch(error=>{
+        console.error(error);
+    });
+}
 
 async function displayItems(data){
     // for(let key in data){
@@ -137,13 +151,10 @@ async function displayItems(data){
     // nameL.setAttribute("for", nameV.id);
 
     await addTextNode(container, "Name: " + data.name);
-    // await itemAsInput(container, "Name", data.name);
-    await addElement(container, "br");
-    // await itemAsInput(container, "Location", data.l_name);
-    await addTextNode(container, "Location: " + data.l_name);
-    await addElement(container, "br");
-    // await itemAsInput(container, "Shelf", data.address);
-    await addTextNode(container, "Shelf: " + data.address);
+    // await addElement(container, "br");
+    // await addTextNode(container, "Location: " + data.l_name);
+    // await addElement(container, "br");
+    // await addTextNode(container, "Shelf: " + data.address);
     
 }
 
@@ -156,12 +167,10 @@ async function displayItemsEdit(data){
 
     // await addTextNode(container, "Name: " + data.name);
     await itemAsInput(container, "Name", "name", data.name);
-    await addElement(container, "br");
-    await itemAsInput(container, "Location", "l_name", data.l_name);
-    // await addTextNode(container, "Location: " + data.l_name);
-    await addElement(container, "br");
-    await itemAsInput(container, "Shelf", "address", data.address);
-    // await addTextNode(container, "Shelf: " + data.address);
+    // await addElement(container, "br");
+    // await itemAsInput(container, "Location", "l_name", data.l_name);
+    // await addElement(container, "br");
+    // await itemAsInput(container, "Shelf", "address", data.address);
 }
 
 /**

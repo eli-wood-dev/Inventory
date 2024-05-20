@@ -131,6 +131,7 @@ function save(){
 }
 
 async function displayItems(data){
+    // console.log(data);
     // for(let key in data){
     //     let value = data[key];
     //     console.log(key + ": " + value);
@@ -148,7 +149,13 @@ async function displayItems(data){
     // nameL.setAttribute("for", nameV.id);
 
     await addTextNode(container, "Name: " + data.name);
-    // await addElement(container, "br");
+    await addElement(container, "br");
+    let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
+    // available.setAttribute("disabled", "false");
+    available.setAttribute("onclick", "return false;");
+    if(available.value != 0){
+        available.checked = true;
+    }
     // await addTextNode(container, "Location: " + data.l_name);
     // await addElement(container, "br");
     // await addTextNode(container, "Shelf: " + data.address);
@@ -162,6 +169,14 @@ async function displayItemsEdit(data){
 
     // await addTextNode(container, "Name: " + data.name);
     await itemAsInput(container, "Name", "name", data.name);
+    await addElement(container, "br");
+    let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
+    if(available.value != 0){
+        available.checked = true;
+    }
+    available.addEventListener("click", ()=>{
+        toggleCheckbox(available);
+    });
     // await addElement(container, "br");
     // await itemAsInput(container, "Location", "l_name", data.l_name);
     // await addElement(container, "br");
@@ -175,12 +190,23 @@ async function displayItemsEdit(data){
  * @param {*} value the placeholder value in the input field
  */
 async function itemAsInput(parent, label, key, value){
+    return itemAsInput(parent, label, key, value, "text");
+}
+
+/**
+ * 
+ * @param {*} parent the parent container
+ * @param {*} label then name of the label, i.e. "name"
+ * @param {*} value the placeholder value in the input field
+ */
+async function itemAsInput(parent, label, key, value, type){
     let l = await addElement(parent, "label");
     await addTextNode(l, label + ": ");
     let v = await addElement(parent, "input");
     v.setAttribute("id", key + "Input");
-    v.setAttribute("type", "text");
+    v.setAttribute("type", type);
     v.setAttribute("value", value);
     v.setAttribute("name", key);
     l.setAttribute("for", v.id);
+    return v;
 }

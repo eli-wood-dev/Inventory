@@ -57,13 +57,14 @@ async function displayItems(data){
     //remove all children
     await removeChildren(container);
     //add new data
-    data.forEach((item, index) => {
-        let element = addElement(container, "li");
+
+    for(let item of data){
+        let element = await addElement(container, "li");
         addTextNode(element, item.name);
         element.classList.add("pointer");
         element.addEventListener("click", (e)=>{
             window.location.href = "../html/item.html?id=" + item.id;
         });
-    });
+    }
 }
 

@@ -30,3 +30,11 @@ async function removeChildren(container){
         container.removeChild(container.lastChild);
     }
 }
+
+function toggleCheckbox(element){
+    if(element.checked){
+        element.value = 1;
+    } else{
+        element.value = 0;
+    }
+}

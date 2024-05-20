@@ -139,10 +139,7 @@ async function displayItems(data){
     // console.log(item);
     let container = document.querySelector(".item");
 
-
-    while(container.lastChild){
-        container.removeChild(container.lastChild);
-    }
+    await removeChildren(container);
     // let nameL = await addElement(container, "label");
     // await addTextNode(nameL, "Name: ");
     // let nameV = await addElement(container, "input");
@@ -161,9 +158,7 @@ async function displayItems(data){
 async function displayItemsEdit(data){
     let container = document.querySelector(".item");
 
-    while(container.lastChild){
-        container.removeChild(container.lastChild);
-    }
+    await removeChildren(container);
 
     // await addTextNode(container, "Name: " + data.name);
     await itemAsInput(container, "Name", "name", data.name);

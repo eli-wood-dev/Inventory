@@ -52,25 +52,18 @@ function getItems(json){
 }
 
 async function displayItems(data){
-    let container = await getContainer();
+    let container = document.querySelector(".items");
     // console.log(container);
     //remove all children
-    while(container.lastChild){
-        container.removeChild(container.lastChild);
-    }
+    await removeChildren(container);
     //add new data
     data.forEach((item, index) => {
-        let element = document.createElement("li");
-        element.appendChild(document.createTextNode(/*(index + 1) + " " + */item.name));
+        let element = addElement(container, "li");
+        addTextNode(element, item.name);
         element.classList.add("pointer");
         element.addEventListener("click", (e)=>{
             window.location.href = "../html/item.html?id=" + item.id;
         });
-        container.appendChild(element);
     });
-}
-
-async function getContainer(){
-    return document.querySelector(".items");
 }
 

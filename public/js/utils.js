@@ -24,3 +24,9 @@ async function addStar(parent){
     star.classList.add("required-star");
     parent.parentNode.insertBefore(star, parent.nextSibling);
 }
+
+async function removeChildren(container){
+    while(container.lastChild){
+        container.removeChild(container.lastChild);
+    }
+}

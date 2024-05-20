@@ -51,7 +51,11 @@ window.addEventListener("load", ()=>{
 
     document.querySelector("#save-button").addEventListener("click", ()=>{
         if(editing){
-            save();
+            save().then(response=>{
+
+            }, reason=>{
+                alert(reason);
+            });
         }
     });
 
@@ -89,15 +93,23 @@ window.addEventListener("load", ()=>{
 window.addEventListener("keypress", (event)=>{
     if(editing && event.key == "Enter"){
         document.activeElement.blur();
-        save();
+        save().then(response=>{
+
+        }, reason=>{
+            alert(reason);
+        });
     }
 });
 
 function save(){
     let container = document.querySelector(".item");
-    let data = item;
+    let data = cloneJSON(item);
 
     for(let element of container.children){
+        if(element.classList.contains("required") && !element.value){
+            return Promise.reject("required elements not filled");
+        }
+
         if(element.tagName == "LABEL"){
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input){
@@ -109,7 +121,7 @@ function save(){
     // console.log(data);
 
     //request to save
-    fetch("../../private/modify_item.php", {
+    return fetch("../../private/modify_item.php", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -151,8 +163,8 @@ async function displayItems(data){
     await addTextNode(container, "Name: " + data.name);
     await addElement(container, "br");
     let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
-    // available.setAttribute("disabled", "false");
-    available.setAttribute("onclick", "return false;");
+    available.setAttribute("disabled", "false");
+    // available.setAttribute("onclick", "return false;");
     if(available.value != 0){
         available.checked = true;
     }
@@ -168,13 +180,15 @@ async function displayItemsEdit(data){
     await removeChildren(container);
 
     // await addTextNode(container, "Name: " + data.name);
-    await itemAsInput(container, "Name", "name", data.name);
+    let name = await itemAsInput(container, "Name", "name", data.name);
+    name.classList.add("required");
+    addStar(name);
     await addElement(container, "br");
     let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
     if(available.value != 0){
         available.checked = true;
     }
-    available.addEventListener("click", ()=>{
+    available.addEventListener("change", ()=>{
         toggleCheckbox(available);
     });
     // await addElement(container, "br");

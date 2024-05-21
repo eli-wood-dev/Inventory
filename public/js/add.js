@@ -1,25 +1,21 @@
-let item = {};
+let item = {
+    "s_id": null,
+    "c_id": null,
+    "name": null,
+    "notes": null,
+    "quantity": null,
+    "unit": null,
+    "billing_type": null,
+    "available": 1,
+    "image": null,
+    "created": null,
+    "last_modified": null,
+    "value": null,
+};
 
 window.addEventListener("load", ()=>{
     document.querySelectorAll(".required").forEach(element=>{
         addStar(element);
-    });
-
-    fetch("../../private/get_generic_item.php")
-    .then((response)=>{
-        if (!response.ok) {
-            return response.json()
-            .then(error => { 
-                throw new Error(error.message);
-            });
-        }
-        return response.json();
-    })
-    .then(data=>{
-        item = data;
-    })
-    .catch(error=>{
-        console.error(error);
     });
 
     document.querySelector("#save-button").addEventListener("click", ()=>{
@@ -37,14 +33,7 @@ window.addEventListener("load", ()=>{
 
     window.addEventListener("keypress", (event)=>{
         if(event.key == "Enter"){
-            save().then(data=>{
-                if(data.id){
-                    document.location.href = "item.html?id=" + data.id;
-                }
-            }, reason=>{
-                alert(reason);
-                document.activeElement.blur();
-            });
+            document.activeElement.blur();
         }
     });
 
@@ -65,6 +54,9 @@ function save(){
         if(element.tagName == "LABEL"){
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input){
+                if(input.getAttribute("type") === "NUMBER" && !input.value){
+                    input.value = 0;
+                }
                 item[input.name] = input.value;
             }
         }
@@ -78,6 +70,7 @@ function save(){
         }
     })
     .then(response=>{
+        console.log(response);
         if (!response.ok) {
             return response.json()
             .then(error => { 

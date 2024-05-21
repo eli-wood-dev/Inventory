@@ -91,13 +91,8 @@ window.addEventListener("load", ()=>{
 });
 
 window.addEventListener("keypress", (event)=>{
-    if(editing && event.key == "Enter"){
+    if(event.key == "Enter"){
         document.activeElement.blur();
-        save().then(response=>{
-
-        }, reason=>{
-            alert(reason);
-        });
     }
 });
 
@@ -163,16 +158,35 @@ async function displayItems(data){
 
     await addTextNode(container, "Name: " + data.name);
     await addElement(container, "br");
+
+
+    // await addTextNode(container, "Available: ");
+    // let available = await addElement(container, "span");
+    // available.classList.add("material-symbols-outlined");
+    // if(data.available != 0){
+    //     available.innerHTML = "check";
+    // } else{
+    //     available.innerHTML = "close";
+    // }
+    
     let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
     available.setAttribute("disabled", "false");
-    // available.setAttribute("onclick", "return false;");
     if(available.value != 0){
         available.checked = true;
     }
+
     // await addTextNode(container, "Location: " + data.l_name);
-    // await addElement(container, "br");
+    await addElement(container, "br");
+    await addTextNode(container, "Quantity: " + (data.quantity ? data.quantity : 0));
     // await addTextNode(container, "Shelf: " + data.address);
+
+    await addElement(container, "br");
+    await addTextNode(container, "Unit: " + (data.unit ? data.unit : "EA"));
     
+    await addElement(container, "br");
+    await addTextNode(container, "Created: " + data.created);
+    await addElement(container, "br");
+    await addTextNode(container, "Last Modified: " + data.last_modified);
 }
 
 async function displayItemsEdit(data){
@@ -193,10 +207,21 @@ async function displayItemsEdit(data){
     available.addEventListener("change", ()=>{
         toggleCheckbox(available);
     });
-    // await addElement(container, "br");
+    await addElement(container, "br");
     // await itemAsInput(container, "Location", "l_name", data.l_name);
     // await addElement(container, "br");
     // await itemAsInput(container, "Shelf", "address", data.address);
+    let qty = await itemAsInput(container, "Quantity", "quantity", (data.quantity ? data.quantity : 0), "number");
+    qty.setAttribute("min", 0);
+
+    await addElement(container, "br");
+    await itemAsInput(container, "Unit", "unit", (data.unit ? data.unit : "EA"));
+
+
+    await addElement(container, "br");
+    await addTextNode(container, "Created: " + data.created);
+    await addElement(container, "br");
+    await addTextNode(container, "Last Modified: " + data.last_modified);
 }
 
 /**

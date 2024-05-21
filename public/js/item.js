@@ -135,6 +135,7 @@ function save(){
                 throw new Error(error.message);
             });
         }
+        item = data;//set item to data once everything is ok
         return response.json();
     })
     .catch(error=>{
@@ -185,6 +186,7 @@ async function displayItemsEdit(data){
     addStar(name);
     await addElement(container, "br");
     let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
+    
     if(available.value != 0){
         available.checked = true;
     }

@@ -243,6 +243,10 @@ async function displayItemsEdit(data){
         value.value = formatNumber(value.value);
     });
 
+    value.addEventListener("blur", ()=>{
+        value.value = addTrailingZeroes(value.value, 2);
+    });
+
     addElement(container, "br");
     let notesLabel = await addElement(container, "label");
     await addTextNode(notesLabel, "Notes: ");

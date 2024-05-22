@@ -60,24 +60,55 @@ function cloneJSON(obj) {
     return cloneO;
 }
 
-const formatter = new Intl.NumberFormat(undefined, {
-    minimumFractionDigits: 2, 
-    maximumFractionDigits: 2
-});
+// const formatter = new Intl.NumberFormat(undefined, {
+//     minimumFractionDigits: 2, 
+//     maximumFractionDigits: 2
+// });
 
 function formatNumber(num){
-    num.replace(/[^0-9.,]/g, '');
+    num = num.replace(/[^0-9.]/g, '');
 
-    let parts = num.split('.');//need to check if only a . was added
+    // if(num.endsWith(".") && (num.match(/\./g)).length === 1){//if has a . at the end
+        
+    // }
+
+    let parts = (num.includes(".") ? num.split('.') : [num]);
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     if (parts.length > 1) {
+        parts = [parts[0], parts[1]];
         parts[1] = parts[1].substring(0, 2);
         num = parts.join('.');
+    } else{
+        num = parts[0];
     }
 
-    let number = parseFloat(num);
-    if (!isNaN(number)) {
-        formatter.format(number);
-    }
+    // let number = parseFloat(num);
+    
+    // if (!isNaN(number)) {
+    //     formatter.format(number);
+    // }
 
-    return number;
+    return num.toString();
+}
+
+function addTrailingZeroes(num, numzeros=2){
+    let toAdd = "";
+    for(let i = 0; i < numzeros; i++){
+        toAdd += "0";
+    }
+    if(num.endsWith("." + toAdd)){
+        return num;
+    }
+    if(num.endsWith(".")){
+        num += toAdd;
+        return num;
+    } else if(num.contains(".")){
+        let parts = num.split(".");
+
+        parts[parts.length-1] = addTrailingZeroes(parts[parts.length-1]);
+
+        return parts.join(".");
+    }
+    num += "." + toAdd;
+    return num;
 }

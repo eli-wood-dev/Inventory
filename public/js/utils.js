@@ -59,3 +59,25 @@ function cloneJSON(obj) {
     }                  
     return cloneO;
 }
+
+const formatter = new Intl.NumberFormat(undefined, {
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2
+});
+
+function formatNumber(num){
+    num.replace(/[^0-9.,]/g, '');
+
+    let parts = num.split('.');//need to check if only a . was added
+    if (parts.length > 1) {
+        parts[1] = parts[1].substring(0, 2);
+        num = parts.join('.');
+    }
+
+    let number = parseFloat(num);
+    if (!isNaN(number)) {
+        formatter.format(number);
+    }
+
+    return number;
+}

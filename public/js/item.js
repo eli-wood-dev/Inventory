@@ -184,6 +184,9 @@ async function displayItems(data){
     addTextNode(container, "Unit: " + (data.unit ? data.unit : "EA"));
 
     addElement(container, "br");
+    addTextNode(container, "Value: $" + formatNumber(data.value ? data.value : 0));
+
+    addElement(container, "br");
 
     let noteLabel = await addElement(container, "span");
     noteLabel.innerHTML = "Notes: ";
@@ -232,6 +235,13 @@ async function displayItemsEdit(data){
     let unit = await itemAsInput(container, "Unit", "unit", (data.unit ? data.unit : "EA"));
     unit.classList.add("required");
     addStar(unit);
+
+    addElement(container, "br");
+    let value = await itemAsInput(container, "Value", "value", formatNumber(data.value ? data.value : 0));
+    container.insertBefore(document.createTextNode("$"), value);
+    value.addEventListener("input", ()=>{
+        value.value = formatNumber(value.value);
+    });
 
     addElement(container, "br");
     let notesLabel = await addElement(container, "label");

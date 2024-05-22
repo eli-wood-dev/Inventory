@@ -176,17 +176,31 @@ async function displayItems(data){
     }
 
     // await addTextNode(container, "Location: " + data.l_name);
-    await addElement(container, "br");
-    await addTextNode(container, "Quantity: " + (data.quantity ? data.quantity : 0));
+    addElement(container, "br");
+    addTextNode(container, "Quantity: " + (data.quantity ? data.quantity : 0));
     // await addTextNode(container, "Shelf: " + data.address);
 
-    await addElement(container, "br");
-    await addTextNode(container, "Unit: " + (data.unit ? data.unit : "EA"));
+    addElement(container, "br");
+    addTextNode(container, "Unit: " + (data.unit ? data.unit : "EA"));
+
+    addElement(container, "br");
+
+    let noteLabel = await addElement(container, "span");
+    noteLabel.innerHTML = "Notes: ";
+
+    if(data.notes){
+        addElement(container, "br");
+        let notes = await addElement(container, "div");
+        notes.innerHTML = data.notes;
+    }
     
-    await addElement(container, "br");
-    await addTextNode(container, "Created: " + data.created);
-    await addElement(container, "br");
-    await addTextNode(container, "Last Modified: " + data.last_modified);
+    
+    
+    
+    addElement(container, "br");
+    addTextNode(container, "Created: " + data.created);
+    addElement(container, "br");
+    addTextNode(container, "Last Modified: " + data.last_modified);
 }
 
 async function displayItemsEdit(data){
@@ -198,7 +212,7 @@ async function displayItemsEdit(data){
     let name = await itemAsInput(container, "Name", "name", data.name);
     name.classList.add("required");
     addStar(name);
-    await addElement(container, "br");
+    addElement(container, "br");
     let available = await itemAsInput(container, "Available", "available", data.available, "checkbox");
     
     if(available.value != 0){
@@ -207,21 +221,34 @@ async function displayItemsEdit(data){
     available.addEventListener("change", ()=>{
         toggleCheckbox(available);
     });
-    await addElement(container, "br");
+    addElement(container, "br");
     // await itemAsInput(container, "Location", "l_name", data.l_name);
     // await addElement(container, "br");
     // await itemAsInput(container, "Shelf", "address", data.address);
     let qty = await itemAsInput(container, "Quantity", "quantity", (data.quantity ? data.quantity : 0), "number");
     qty.setAttribute("min", 0);
 
-    await addElement(container, "br");
-    await itemAsInput(container, "Unit", "unit", (data.unit ? data.unit : "EA"));
+    addElement(container, "br");
+    let unit = await itemAsInput(container, "Unit", "unit", (data.unit ? data.unit : "EA"));
+    unit.classList.add("required");
+    addStar(unit);
 
+    addElement(container, "br");
+    let notesLabel = await addElement(container, "label");
+    await addTextNode(notesLabel, "Notes: ");
+    addElement(container, "br");
+    let notes = await addElement(container, "textarea");
+    notes.setAttribute("id", "notesInput");
+    notes.setAttribute("value", data.notes);
+    notes.setAttribute("name", "notes");
+    notesLabel.setAttribute("for", notes.id);
+    notes.innerHTML = data.notes;
 
-    await addElement(container, "br");
-    await addTextNode(container, "Created: " + data.created);
-    await addElement(container, "br");
-    await addTextNode(container, "Last Modified: " + data.last_modified);
+    addElement(container, "br");
+    addElement(container, "br");
+    addTextNode(container, "Created: " + data.created);
+    addElement(container, "br");
+    addTextNode(container, "Last Modified: " + data.last_modified);
 }
 
 /**

@@ -91,12 +91,12 @@ function formatNumber(num){
     return num.toString();
 }
 
-function addTrailingZeroes(num, numzeros=2){
+function addTrailingZeroes(num, numZeros=2){
     if(num.length == 0){
         return num;
     }
     let toAdd = "";
-    for(let i = 0; i < numzeros; i++){
+    for(let i = 0; i < numZeros; i++){
         toAdd += "0";
     }
     if(num.endsWith("." + toAdd)){
@@ -108,7 +108,14 @@ function addTrailingZeroes(num, numzeros=2){
     } else if(num.includes(".")){
         let parts = num.split(".");
 
-        parts[parts.length-1] = addTrailingZeroes(parts[parts.length-1]);
+        let zerosToAdd = numZeros - parts[parts.length-1].length;
+        if(zerosToAdd != 0){
+            toAdd = "";
+            for(let i = 1; i < numZeros; i++){
+                toAdd += "0";
+            }
+            parts[parts.length-1] += toAdd;
+        }
 
         return parts.join(".");
     }

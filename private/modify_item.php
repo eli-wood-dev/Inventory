@@ -29,7 +29,7 @@ try{
         // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
         
         $request = $pdo->prepare("UPDATE items SET s_id=?, c_id=?, name=?, notes=?, quantity=?, unit=?, available=?, image=?, created=?, last_modified=?, value=? WHERE id=?");
-        $request->execute([$newData["s_id"], $newData["c_id"], $newData["name"], $newData["notes"], $newData["quantity"], $newData["unit"], $newData["available"], $newData["image"], $newData["created"], $newData["last_modified"], $newData["value"], $id]);
+        $request->execute([$newData["s_id"], $newData["c_id"], $newData["name"], $newData["notes"], preg_replace("/[^0-9.]/", "", $newData["quantity"]), $newData["unit"], $newData["available"], $newData["image"], $newData["created"], $newData["last_modified"], preg_replace("/[^0-9.]/", "", $newData["value"]), $id]);
 
         // file_put_contents("test.json", json_encode($newData, JSON_PRETTY_PRINT), LOCK_EX);
 

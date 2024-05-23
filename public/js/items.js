@@ -22,6 +22,16 @@ window.addEventListener("load", ()=>{
         getItems(data, displayItems);
     });
 
+    document.querySelector("#last").addEventListener("click", ()=>{
+        data.pageNumber = data.maxPageNumber;
+        getItems(data, displayItems);
+    });
+
+    document.querySelector("#first").addEventListener("click", ()=>{
+        data.pageNumber = 1;
+        getItems(data, displayItems);
+    });
+
     document.querySelector("#add-button").addEventListener("click", ()=>{
         window.location.href = "new.html";
     });

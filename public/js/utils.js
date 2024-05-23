@@ -92,6 +92,9 @@ function formatNumber(num){
 }
 
 function addTrailingZeroes(num, numzeros=2){
+    if(num.length == 0){
+        return num;
+    }
     let toAdd = "";
     for(let i = 0; i < numzeros; i++){
         toAdd += "0";
@@ -102,7 +105,7 @@ function addTrailingZeroes(num, numzeros=2){
     if(num.endsWith(".")){
         num += toAdd;
         return num;
-    } else if(num.contains(".")){
+    } else if(num.includes(".")){
         let parts = num.split(".");
 
         parts[parts.length-1] = addTrailingZeroes(parts[parts.length-1]);

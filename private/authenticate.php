@@ -14,7 +14,7 @@ try{
         http_response_code($error['code']);
 
         echo json_encode($error);
-        exit();//maybe just do exit 401
+        exit();//? maybe just do exit 401
     }
 
     file_put_contents('uids.txt', $uid . PHP_EOL , FILE_APPEND | LOCK_EX);

@@ -24,7 +24,7 @@ if(!sessionStorage.getItem("uid")){
     })
     .catch(error=>{
         if(error == "user not found"){
-            //alert that sign up is required
+            //TODO alert that sign up is required
         } else{
             console.error(error);
         }

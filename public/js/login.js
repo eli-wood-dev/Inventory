@@ -1,13 +1,14 @@
 window.addEventListener("load", ()=>{
     let button = document.querySelector("#confirm_login");
     button.addEventListener("click", ()=>{
-        sha256("password").then((pass)=>{
+        let data = {};
+        data.email = document.querySelector("#emailInput").value;
+
+        sha256(document.querySelector("#passwordInput").value).then((pass)=>{
+            data.password = pass;
             fetch("../../private/login.php", {
                 method: "POST",
-                body: JSON.stringify({//hardcoded for now
-                    "email": "test@test.com",
-                    "password": pass
-                }),
+                body: JSON.stringify(data),
                 headers: {
                     "Content-Type": "application/json"
                 }

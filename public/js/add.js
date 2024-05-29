@@ -46,20 +46,23 @@ window.addEventListener("load", ()=>{
 function save(){
     let container = document.querySelector(".item");
 
+    let required;
+
     for(let element of container.children){
         if(element.classList.contains("required") && !element.value){
-            return Promise.reject("required elements not filled");
+            required += element.name + " ";
         }
 
         if(element.tagName == "LABEL"){
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input){
-                if(input.getAttribute("type") === "NUMBER" && !input.value){
-                    input.value = 0;
-                }
-                item[input.name] = input.value;
+                data[input.name] = input.value;
             }
         }
+    }
+
+    if(required !== null){
+        return Promise.reject("required elements not filled: " + required);
     }
 
     return fetch("../../private/create_item.php", {

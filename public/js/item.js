@@ -100,9 +100,11 @@ function save(){
     let container = document.querySelector(".item");
     let data = cloneJSON(item);
 
+    let required;
+
     for(let element of container.children){
         if(element.classList.contains("required") && !element.value){
-            return Promise.reject("required elements not filled");
+            required += element.name + " ";
         }
 
         if(element.tagName == "LABEL"){
@@ -111,6 +113,10 @@ function save(){
                 data[input.name] = input.value;
             }
         }
+    }
+
+    if(required !== null){
+        return Promise.reject("required elements not filled: " + required);
     }
 
     // console.log(data);

@@ -1,5 +1,9 @@
 window.addEventListener("load", ()=>{
-    let form = document.querySelector("#loginForm");
+    document.querySelectorAll(".required").forEach(element=>{
+        addStar(element);
+    });
+
+    let form = document.querySelector("#signupForm");
     form.addEventListener("submit", (event)=>{
         event.preventDefault()
         let data = {};
@@ -15,9 +19,8 @@ window.addEventListener("load", ()=>{
                     }
                 }
             }
-
             
-            fetch("../../private/login.php", {
+            fetch("../../private/signup.php", {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {
@@ -46,8 +49,8 @@ window.addEventListener("load", ()=>{
                 }
             })
             .catch(error=>{
-                if(error == "Error: user not found"){
-                    //TODO alert that sign up is required
+                if(error == "Error: user already exists"){
+                    alert("user already exists");
                 } else{
                     console.error(error);
                 }

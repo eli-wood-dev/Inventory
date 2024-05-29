@@ -25,11 +25,7 @@ try{
     $uid = sha1($response["id"] . date("h:i:sa"));
     $_SESSION["uid"] = $uid;
 
-    $toSend["uid"] = $uid;
-
-    
-
-    echo json_encode($toSend);
+    echo json_encode(["uid"=>$uid]);
 
 } catch(Exception $e){
     $error = ["message" => $e->getMessage(), "code" => 500];

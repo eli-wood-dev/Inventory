@@ -1,6 +1,9 @@
 window.addEventListener("load", ()=>{
-    let button = document.querySelector("#login");
-    button.addEventListener("click", ()=>{
+    document.querySelector("#login").addEventListener("click", ()=>{
         window.location.href = "public/html/login.html";
+    });
+
+    document.querySelector("#signup").addEventListener("click", ()=>{
+        window.location.href = "public/html/signup.html";
     });
 })

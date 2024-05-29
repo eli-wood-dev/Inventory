@@ -23,8 +23,8 @@ if(!sessionStorage.getItem("uid")){
         //don't need the uid again
     })
     .catch(error=>{
-        if(error == "user not found"){
-            //TODO alert that sign up is required
+        if(error == "invalid uid"){
+            redirect();
         } else{
             console.error(error);
         }

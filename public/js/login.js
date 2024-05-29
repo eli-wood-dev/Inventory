@@ -1,8 +1,7 @@
 window.addEventListener("load", ()=>{
     let button = document.querySelector("#confirm_login");
     button.addEventListener("click", ()=>{
-        let passwd = sha256("password");
-        passwd.then((pass)=>{
+        sha256("password").then((pass)=>{
             fetch("../../private/login.php", {
                 method: "POST",
                 body: JSON.stringify({//hardcoded for now
@@ -36,7 +35,7 @@ window.addEventListener("load", ()=>{
             })
             .catch(error=>{
                 if(error == "user not found"){
-                    //alert that sign up is required
+                    //TODO alert that sign up is required
                 } else{
                     console.error(error);
                 }

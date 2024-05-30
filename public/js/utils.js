@@ -66,6 +66,7 @@ function cloneJSON(obj) {
 // });
 
 function formatNumber(num){
+    num = num.toString();
     num = num.replace(/[^0-9.]/g, '');
 
     // if(num.endsWith(".") && (num.match(/\./g)).length === 1){//if has a . at the end

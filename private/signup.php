@@ -16,7 +16,7 @@ try{
 
     if(!empty($response)){
         $error = ["message" => "user already exists", "code" => 500];//? don't send error code?
-        http_response_code($error['code']);
+        // http_response_code($error['code']);
 
         echo json_encode($error);
         exit();

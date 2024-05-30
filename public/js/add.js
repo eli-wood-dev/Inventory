@@ -14,6 +14,8 @@ let item = {
 };
 
 window.addEventListener("load", ()=>{
+    item.uid = sessionStorage.getItem("uid");
+
     document.querySelectorAll(".required").forEach(element=>{
         addStar(element);
     });
@@ -73,14 +75,16 @@ function save(){
         }
     })
     .then(response=>{
-        // console.log(response);
-        if (!response.ok) {
-            return response.json()
+        return response.json();
+    })
+    .then(value=>{
+        if (value.code && value.code != 200) {
+            return Promise.resolve(value)
             .then(error => { 
                 throw new Error(error.message);
             });
         }
-        return response.json();
+        return Promise.resolve(value);
     })
     .catch(error=>{
         console.error(error);

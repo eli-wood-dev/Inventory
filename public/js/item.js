@@ -9,6 +9,8 @@ let item = {};
 let editing = false;
 
 window.addEventListener("load", ()=>{
+    idJSON.uid = sessionStorage.getItem("uid");
+    item.uid = sessionStorage.getItem("uid");
     fetch("../../private/get_item.php", {
         method: "POST",
         body: JSON.stringify(idJSON),
@@ -16,14 +18,17 @@ window.addEventListener("load", ()=>{
             "Content-Type": "application/json"
         }
     })
-    .then((response)=>{
-        if (!response.ok) {
-            return response.json()
+    .then(response=>{
+        return response.json();
+    })
+    .then(value=>{
+        if (value.code && value.code != 200) {
+            return Promise.resolve(value)
             .then(error => { 
                 throw new Error(error.message);
             });
         }
-        return response.json();
+        return Promise.resolve(value);
     })
     .then((data)=>{
         item = data;
@@ -69,13 +74,18 @@ window.addEventListener("load", ()=>{
                 }
             })
             .then(response=>{
-                if (!response.ok) {
-                    return response.json().then(error => { 
+                return response.json();
+            })
+            .then(value=>{
+                if (value.code && value.code != 200) {
+                    return Promise.resolve(value)
+                    .then(error => { 
                         throw new Error(error.message);
                     });
                 }
-                return response.json();
-            }).then(data=>{
+                return Promise.resolve(value);
+            })
+            .then(data=>{
                 window.location.href="items.html";
             })
             .catch(error=>{
@@ -130,14 +140,16 @@ function save(){
         }
     })
     .then(response=>{
-        if (!response.ok) {
-            return response.json()
+        return response.json();
+    })
+    .then(value=>{
+        if (value.code && value.code != 200) {
+            return Promise.resolve(value)
             .then(error => { 
                 throw new Error(error.message);
             });
         }
-        item = data;//set item to data once everything is ok
-        return response.json();
+        return Promise.resolve(value);
     })
     .catch(error=>{
         console.error(error);

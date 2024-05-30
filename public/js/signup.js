@@ -28,13 +28,16 @@ window.addEventListener("load", ()=>{
                 }
             })
             .then(response=>{
-                if (!response.ok) {
-                    return response.json()
+                return response.json();
+            })
+            .then(value=>{
+                if (value.code && value.code != 200) {
+                    return Promise.resolve(value)
                     .then(error => { 
                         throw new Error(error.message);
                     });
                 }
-                return response.json();
+                return Promise.resolve(value);
             })
             .then(data=>{
                 sessionStorage.setItem("uid", data.uid);

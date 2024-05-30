@@ -1,9 +1,13 @@
 <?php
 try{
     require("pdo_conn.php");
+    require("php_auth.php");
 
     $json = trim(file_get_contents("php://input"));
     $input = json_decode($json, true);
+
+    $uid = $input["uid"];
+    validate($uid);
     
     $amountPerPage = $input["amountPerPage"]??10;
     if($amountPerPage <= 0){

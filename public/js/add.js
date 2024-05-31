@@ -51,14 +51,15 @@ function save(){
     let required;
 
     for(let element of container.children){
-        if(element.classList.contains("required") && !element.value){
+        if(element.classList.contains("required") && !element.value){//? doesn't work anymore
             required += element.name + " ";
         }
 
         if(element.tagName == "LABEL"){
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input){
-                data[input.name] = input.value;
+                console.log(input);
+                item[input.name] = input.value;
             }
         }
     }

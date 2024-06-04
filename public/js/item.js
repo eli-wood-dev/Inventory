@@ -112,9 +112,11 @@ function save(){
 
     let required;
 
+    let requiredElements = [];
+
     for(let element of container.children){
-        if(element.classList.contains("required") && !element.value){
-            required += element.name + " ";
+        if(element.classList.contains("required")){
+            requiredElements.push(element);
         }
 
         if(element.tagName == "LABEL"){
@@ -122,6 +124,12 @@ function save(){
             if(input){
                 data[input.name] = input.value;
             }
+        }
+    }
+
+    for (let req of requiredElements){//hopefully this fixes things
+        if(data[req.name] != null){
+            required += req.name + " ";
         }
     }
 

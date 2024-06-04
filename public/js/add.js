@@ -50,17 +50,26 @@ function save(){
 
     let required;
 
+    let requiredElements = [];
+
     for(let element of container.children){
-        if(element.classList.contains("required") && !element.value){//? doesn't work anymore
-            required += element.name + " ";
+        if(element.classList.contains("required")){
+            requiredElements.push(element);
         }
 
         if(element.tagName == "LABEL"){
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input){
-                console.log(input);
                 item[input.name] = input.value;
             }
+        }
+    }
+
+    console.log(requiredElements);
+
+    for (let req of requiredElements){//hopefully this fixes things (it didn't)
+        if(item[req.name] != null){
+            required += req.name + " ";
         }
     }
 

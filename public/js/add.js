@@ -14,6 +14,8 @@ let item = {
 };
 
 window.addEventListener("load", ()=>{
+    item.uid = sessionStorage.getItem("uid");
+
     document.querySelectorAll(".required").forEach(element=>{
         addStar(element);
     });
@@ -48,16 +50,26 @@ function save(){
 
     let required;
 
+    let requiredElements = [];
+
     for(let element of container.children){
-        if(element.classList.contains("required") && !element.value){
-            required += element.name + " ";
+        if(element.classList.contains("required")){
+            requiredElements.push(element);
         }
 
         if(element.tagName == "LABEL"){
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input){
-                data[input.name] = input.value;
+                item[input.name] = input.value;
             }
+        }
+    }
+
+    console.log(requiredElements);
+
+    for (let req of requiredElements){//hopefully this fixes things (it didn't)
+        if(item[req.name] != null){
+            required += req.name + " ";
         }
     }
 
@@ -73,14 +85,16 @@ function save(){
         }
     })
     .then(response=>{
-        // console.log(response);
-        if (!response.ok) {
-            return response.json()
+        return response.json();
+    })
+    .then(value=>{
+        if (value.code && value.code != 200) {
+            return Promise.resolve(value)
             .then(error => { 
                 throw new Error(error.message);
             });
         }
-        return response.json();
+        return Promise.resolve(value);
     })
     .catch(error=>{
         console.error(error);

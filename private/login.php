@@ -15,7 +15,7 @@ try{
 
     if(empty($response)){
         $error = ["message" => "user not found", "code" => 401];
-        http_response_code($error['code']);
+        // http_response_code($error['code']);
 
         echo json_encode($error);
         exit();//? maybe just do exit 401

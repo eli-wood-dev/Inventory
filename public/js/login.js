@@ -25,13 +25,16 @@ window.addEventListener("load", ()=>{
                 }
             })
             .then(response=>{
-                if (!response.ok) {
-                    return response.json()
+                return response.json();
+            })
+            .then(value=>{
+                if (value.code && value.code != 200) {
+                    return Promise.resolve(value)
                     .then(error => { 
                         throw new Error(error.message);
                     });
                 }
-                return response.json();
+                return Promise.resolve(value);
             })
             .then(data=>{
                 sessionStorage.setItem("uid", data.uid);
@@ -47,6 +50,7 @@ window.addEventListener("load", ()=>{
             })
             .catch(error=>{
                 if(error == "Error: user not found"){
+                    alert("Either your username or password are incorrect");
                     //TODO alert that sign up is required
                 } else{
                     console.error(error);

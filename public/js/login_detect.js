@@ -11,13 +11,16 @@ if(!sessionStorage.getItem("uid")){
         }
     })
     .then(response=>{
-        if (!response.ok) {
-            return response.json()
+        return response.json();
+    })
+    .then(value=>{
+        if (value.code && value.code != 200) {
+            return Promise.resolve(value)
             .then(error => { 
                 throw new Error(error.message);
             });
         }
-        return response.json();
+        return Promise.resolve(value);
     })
     .then(data=>{
         //don't need the uid again

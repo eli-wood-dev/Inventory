@@ -1,9 +1,13 @@
 <?php
 try{
     require("pdo_conn.php");
+    require("php_auth.php");
 
     $json = trim(file_get_contents("php://input"));
     $input = json_decode($json, true);
+
+    $uid = $input["uid"];
+    validate($uid);
 
     $id = filter_var($input["id"], FILTER_SANITIZE_NUMBER_INT);
 

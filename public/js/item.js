@@ -32,6 +32,7 @@ window.addEventListener("load", ()=>{
     })
     .then((data)=>{
         item = data;
+        item.uid = sessionStorage.getItem("uid");
         displayItems(data);
     })
     .catch(error=>{
@@ -133,6 +134,8 @@ function save(){
     if(required.length > 0) {
         return Promise.reject("required elements not filled: " + required.trim());
     }
+
+    item = data;
 
     // console.log(data);
 

@@ -6,7 +6,7 @@ try{
     $json = trim(file_get_contents("php://input"));
     $input = json_decode($json, true);
 
-    $uid = $input["uid"];
+    $uid = $input["uid"]??0;
     validate($uid);
 
     $id = filter_var($input["id"], FILTER_SANITIZE_NUMBER_INT);

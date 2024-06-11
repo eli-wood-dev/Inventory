@@ -23,9 +23,6 @@ window.addEventListener("load", ()=>{
     document.querySelector("#save-button").addEventListener("click", ()=>{
         save().then(data=>{
             if(data.id){
-                // console.log("item.html?" + new URLSearchParams("id=" + data.id).toString);
-                // let id = new URLSearchParams("id=" + data.id).toString();
-                // document.location.href = "item.html?" + id;
                 document.location.href = "item.html?id=" + data.id;
             }
         }, reason=>{
@@ -47,7 +44,6 @@ window.addEventListener("load", ()=>{
 
 function save(){
     let container = document.querySelector(".item");
-    let data = cloneJSON(item);
     
     let required = "";
     
@@ -63,7 +59,7 @@ function save(){
         if(element.tagName === "LABEL") {
             let input = document.querySelector("#" + element.getAttribute("for"));
             if(input) {
-                data[input.name] = input.value;
+                item[input.name] = input.value;
             }
         }
     }

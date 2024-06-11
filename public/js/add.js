@@ -47,34 +47,30 @@ window.addEventListener("load", ()=>{
 
 function save(){
     let container = document.querySelector(".item");
-
-    let required;
-
-    let requiredElements = [];
-
-    for(let element of container.children){
-        if(element.classList.contains("required")){
-            requiredElements.push(element);
+    let data = cloneJSON(item);
+    
+    let required = "";
+    
+    // Iterate over all children with the class 'required'
+    for(let element of container.querySelectorAll(".required")) {
+        if(!element.value) {
+            required += element.name + " ";
         }
-
-        if(element.tagName == "LABEL"){
+    }
+    
+    // Iterate over all children to find labels and match inputs
+    for(let element of container.children) {
+        if(element.tagName === "LABEL") {
             let input = document.querySelector("#" + element.getAttribute("for"));
-            if(input){
-                item[input.name] = input.value;
+            if(input) {
+                data[input.name] = input.value;
             }
         }
     }
-
-    console.log(requiredElements);
-
-    for (let req of requiredElements){//hopefully this fixes things (it didn't)
-        if(item[req.name] != null){
-            required += req.name + " ";
-        }
-    }
-
-    if(required !== null){
-        return Promise.reject("required elements not filled: " + required);
+    
+    // Check if required fields are not filled
+    if(required.length > 0) {
+        return Promise.reject("required elements not filled: " + required.trim());
     }
 
     return fetch("../../private/create_item.php", {

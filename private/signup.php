@@ -7,7 +7,7 @@ try{
     $input = json_decode($json, true);
 
     $email = $input["email"];
-    $password = $input["password"];//? should be hashed on front end. maybe hash on backend too?
+    $password = $input["password"];
     $name = $input["name"];
 
     $request = $pdo->prepare("SELECT * FROM users WHERE email=? LIMIT 1");
@@ -15,11 +15,11 @@ try{
     $response = $request->fetch();
 
     if(!empty($response)){
-        $error = ["message" => "user already exists", "code" => 500];//? don't send error code?
-        // http_response_code($error['code']);
+        $error = ["message" => "UNAUTHORIZED", "code" => 401];
+        http_response_code($error['code']);
 
-        echo json_encode($error);
-        exit();
+        echo $error["message"];
+        exit;
     }
 
     $request = $pdo->prepare("INSERT INTO users (email, password, name) VALUES(?, ?, ?)");
@@ -27,11 +27,11 @@ try{
     $id = $pdo->lastInsertId();
 
     if(empty($id)){
-        $error = ["message" => "user not created", "code" => 500];
+        $error = ["message" => "USER NOT CREATED", "code" => 500];
         http_response_code($error['code']);
 
-        echo json_encode($error);
-        exit();
+        echo $error["message"];
+        exit;
     }
 
     //hash the user id and current timestamp for a unique session id
@@ -46,5 +46,5 @@ try{
     $error = ["message" => $e->getMessage(), "code" => 500];
     http_response_code($error['code']);
 
-    echo json_encode($error);
+    echo $error["message"];
 }

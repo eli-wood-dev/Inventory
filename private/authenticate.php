@@ -8,7 +8,7 @@ try{
     $uid = $input["uid"];
     $toSend = ["uid"=>$uid];
 
-    validate($uid);
+    validate($uid, 0);
 
     // file_put_contents('uids.txt', $uid . PHP_EOL , FILE_APPEND | LOCK_EX);
 
@@ -18,5 +18,5 @@ try{
     $error = ["message" => $e->getMessage(), "code" => 500];
     http_response_code($error['code']);
 
-    echo json_encode($error);
+    echo $error["message"];
 }

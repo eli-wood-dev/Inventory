@@ -10,27 +10,21 @@ if(!sessionStorage.getItem("uid")){
             "Content-Type": "application/json"
         }
     })
-    .then(response=>{
-        return response.json();
-    })
-    .then(value=>{
-        if (value.code && value.code != 200) {
-            return Promise.resolve(value)
-            .then(error => { 
-                throw new Error(error.message);
-            });
+    .then(async (res) => {
+        if (!res.ok) {
+            const text = await res.text();
+            return Promise.reject(text);
+        } else {
+            return res.json();
         }
-        return Promise.resolve(value);
     })
     .then(data=>{
         //don't need the uid again
-    })
-    .catch(error=>{
-        if(error == "invalid uid"){
-            redirect();
-        } else{
-            console.error(error);
-        }
+    },
+    (reason) => {
+        //TODO handle error
+        console.error(reason);
+        // alert(reason);
     });
 }
 

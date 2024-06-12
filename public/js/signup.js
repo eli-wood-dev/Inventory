@@ -27,17 +27,13 @@ window.addEventListener("load", ()=>{
                     "Content-Type": "application/json"
                 }
             })
-            .then(response=>{
-                return response.json();
-            })
-            .then(value=>{
-                if (value.code && value.code != 200) {
-                    return Promise.resolve(value)
-                    .then(error => { 
-                        throw new Error(error.message);
-                    });
+            .then(async (res) => {
+                if (!res.ok) {
+                    const text = await res.text();
+                    return Promise.reject(text);
+                } else {
+                    return res.json();
                 }
-                return Promise.resolve(value);
             })
             .then(data=>{
                 sessionStorage.setItem("uid", data.uid);
@@ -50,13 +46,11 @@ window.addEventListener("load", ()=>{
                 } else{
                     window.location.href = "../html/main.html";
                 }
-            })
-            .catch(error=>{
-                if(error == "Error: user already exists"){
-                    alert("user already exists");
-                } else{
-                    console.error(error);
-                }
+            },
+            (reason) => {
+                //TODO handle error
+                console.error(reason);
+                // alert(reason);
             });
         });
     });

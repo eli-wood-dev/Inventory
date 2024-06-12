@@ -2,8 +2,8 @@
 session_start();
 
 /**
- * @param uid the uid of the user being authenticated
- * @param role the role level required for the user to do the action (higher $role means higher access level required)
+ * @param string the uid of the user being authenticated
+ * @param int the role level required for the user to do the action (higher $role means higher access level required)
  */
 function validate($uid, $role){
     if(empty($uid) || empty($_SESSION["uid"]) || $uid != $_SESSION["uid"]){

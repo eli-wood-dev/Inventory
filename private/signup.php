@@ -22,8 +22,8 @@ try{
         exit;
     }
 
-    $request = $pdo->prepare("INSERT INTO users (email, password, name) VALUES(?, ?, ?)");
-    $request->execute([$email, $password, $name]);
+    $request = $pdo->prepare("INSERT INTO users (email, password, name, role) VALUES(?, ?, ?, ?)");
+    $request->execute([$email, $password, $name, 5]);//! 5 is a test number, it should be changed later
     $id = $pdo->lastInsertId();
 
     if(empty($id)){

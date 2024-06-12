@@ -3,11 +3,13 @@ try{
     require("pdo_conn.php");
     require("php_auth.php");
 
+    $reqRole = 1; //! set required role value
+
     $json = trim(file_get_contents("php://input"));
     $input = json_decode($json, true);
 
     $uid = $input["uid"];
-    validate($uid);
+    validate($uid, $reqRole);
     
     $amountPerPage = $input["amountPerPage"]??10;
     if($amountPerPage <= 0){

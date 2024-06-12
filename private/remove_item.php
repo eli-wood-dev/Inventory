@@ -3,13 +3,13 @@ try{
     require("pdo_conn.php");
     require("php_auth.php");
 
+    $reqRole = 3; //! set required role value
+
     $json = trim(file_get_contents("php://input"));
     $input = json_decode($json, true);
 
     $uid = $input["uid"];
-    validate($uid);
-
-    //ensure checking is doen on front end
+    validate($uid, $reqRole);
 
     $id = filter_var($input["id"], FILTER_SANITIZE_NUMBER_INT);
 

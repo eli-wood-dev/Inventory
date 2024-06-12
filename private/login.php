@@ -9,8 +9,8 @@ try{
     $email = $input["email"];
     $password = $input["password"];
 
-    $request = $pdo->prepare("SELECT * FROM users WHERE email=? AND password=? AND role=? LIMIT 1");
-    $request->execute([$email, $password, 5]);//! 5 is a test number, it should be changed later
+    $request = $pdo->prepare("SELECT u.*, c.company_name FROM users AS u JOIN customers AS c ON (u.c_id = c.id) WHERE u.email=? AND u.password=? LIMIT 1");
+    $request->execute([$email, $password]);
     $response = $request->fetch();
 
     if(empty($response)){
@@ -26,7 +26,7 @@ try{
     $_SESSION["uid"] = $uid;
     $_SESSION["role"] = $response["role"];
 
-    echo json_encode(["uid"=>$uid]);
+    echo json_encode(["uid"=>$uid, "role"=>$response["role"], "c_id"=>$response["c_id"], "company"=>$response["company_names"]]);
 
 } catch(Exception $e){
     $error = ["message" => $e->getMessage(), "code" => 500];

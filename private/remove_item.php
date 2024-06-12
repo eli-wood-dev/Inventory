@@ -17,6 +17,8 @@ try{
     $request->execute([$id]);
     $item = $request->fetch();
 
+    validateCompany($item["c_id"]);
+
     file_put_contents("test.json", json_encode($item, JSON_PRETTY_PRINT), LOCK_EX);
 
     if(!empty($item)){

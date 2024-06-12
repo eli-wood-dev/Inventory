@@ -10,6 +10,7 @@ try{
 
     $uid = $input["uid"];
     validate($uid, $reqRole);
+    validateCompany($input["c_id"]);
 
     if(!empty($input)){
         $input["created"] = date("Y-m-d");

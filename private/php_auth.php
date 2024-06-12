@@ -14,7 +14,20 @@ function validate($uid, $role){
         exit;
     }
 
-    if(empty($role) || empty($_SESSION["role"]) || $role > $_SESSION["role"]){
+    if(empty($role) || empty($_SESSION["role"]) || $role > $_SESSION["role"] || empty($_SESSION["c_id"])){
+        $error = ["message" => "FORBIDDEN", "code" => 403];
+        http_response_code($error["code"]);
+
+        echo $error["message"];
+        exit;
+    }
+}
+
+/**
+ * @param int the customer id to check if it is equal to the customer id of the user
+ */
+function validateCompany($c_id){
+    if(empty($c_id) || empty($_SESSION["c_id"]) || $c_id != $_SESSION["c_id"]){
         $error = ["message" => "FORBIDDEN", "code" => 403];
         http_response_code($error["code"]);
 

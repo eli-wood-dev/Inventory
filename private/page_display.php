@@ -20,14 +20,14 @@ try{
         $offset = 0;
     }
     
-    $request = $pdo->prepare("SELECT COUNT(*) AS count FROM items");
-    $request->execute();
+    $request = $pdo->prepare("SELECT COUNT(*) AS count FROM items WHERE c_id = ?");
+    $request->execute([$_SESSION["c_id"]]);
     $count = $request->fetch()["count"];
     
-    $request = $pdo->prepare("SELECT * FROM items ORDER BY name LIMIT :start, :rows");
+    $request = $pdo->prepare("SELECT * FROM items ORDER BY name WHERE c_id = ? LIMIT :start, :rows");
     $request->bindParam(':start', $offset, PDO::PARAM_INT);
     $request->bindParam(':rows', $amountPerPage, PDO::PARAM_INT);
-    $request->execute();
+    $request->execute([$_SESSION["c_id"]]);
     $response = $request->fetchAll();
     
     if(!empty($response)){

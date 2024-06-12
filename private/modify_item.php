@@ -17,7 +17,7 @@ try{
     $request->execute([$id]);
     $item = $request->fetch();
     
-
+    validateCompany($item["c_id"]);
 
     if(!empty($item)){
         $newData = $input;

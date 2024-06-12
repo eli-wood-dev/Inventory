@@ -22,8 +22,8 @@ try{
         exit;
     }
 
-    $request = $pdo->prepare("INSERT INTO users (email, password, name, role) VALUES(?, ?, ?, ?)");
-    $request->execute([$email, $password, $name, 5]);//! 5 is a test number, it should be changed later
+    $request = $pdo->prepare("INSERT INTO users (email, password, name, role, c_id) VALUES(?, ?, ?, ?, ?)");
+    $request->execute([$email, $password, $name, 5, 1]);//! 5 and 1 are test numbers, they should be changed later
     $id = $pdo->lastInsertId();
 
     if(empty($id)){
@@ -37,8 +37,11 @@ try{
     //hash the user id and current timestamp for a unique session id
     $uid = sha1($id . date("h:i:sa"));
     $_SESSION["uid"] = $uid;
+    $_SESSION["role"] = 5;//! 5 is a test number, it should be changed later
+    $_SESSION["c_id"] = 1;//! 1 is a test number, it should be changed later
 
     $toSend["uid"] = $uid;
+    $toSend["role"] = $_SESSION["role"];
 
     echo json_encode($toSend);
 

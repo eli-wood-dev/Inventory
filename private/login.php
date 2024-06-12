@@ -25,6 +25,7 @@ try{
     $uid = sha1($response["id"] . date("h:i:sa"));
     $_SESSION["uid"] = $uid;
     $_SESSION["role"] = $response["role"];
+    $_SESSION["c_id"] = $response["c_id"];
 
     echo json_encode(["uid"=>$uid, "role"=>$response["role"], "c_id"=>$response["c_id"], "company"=>$response["company_names"]]);
 

@@ -15,10 +15,10 @@ try{
     
     // SELECT i.*, c.name AS c_name, s.address, l.name AS l_name FROM items AS i JOIN customers AS c ON i.c_id=c.id JOIN shelves AS s ON i.s_id=s.id JOIN locations as l ON s.l_id=l.id*
 
-    $request = $pdo->prepare("SELECT * FROM items AS i WHERE i.id = ? LIMIT 1");
-    $request->execute([$id]);
+    $request = $pdo->prepare("SELECT * FROM items WHERE id = ? AND c_id = ? LIMIT 1");
+    $request->execute([$id, $_SESSION["c_id"]]);
     $response = $request->fetch();
-    
+
     // file_put_contents("test.json", json_encode($response, JSON_PRETTY_PRINT), LOCK_EX);
     
     if(isset($response)){

@@ -24,10 +24,11 @@ try{
     $request->execute([$_SESSION["c_id"]]);
     $count = $request->fetch()["count"];
     
-    $request = $pdo->prepare("SELECT * FROM items ORDER BY name WHERE c_id = ? LIMIT :start, :rows");
+    $request = $pdo->prepare("SELECT * FROM items WHERE c_id = :c_id ORDER BY name LIMIT :start, :rows");
     $request->bindParam(':start', $offset, PDO::PARAM_INT);
     $request->bindParam(':rows', $amountPerPage, PDO::PARAM_INT);
-    $request->execute([$_SESSION["c_id"]]);
+    $request->bindParam(':c_id', $_SESSION["c_id"], PDO::PARAM_INT);
+    $request->execute();
     $response = $request->fetchAll();
     
     if(!empty($response)){
@@ -39,7 +40,7 @@ try{
         echo json_encode($newData);
         //echo json_encode($input);
     } else{
-        $error = ["message" => "Items not found", "code" => 500];
+        $error = ["message" => "Items not found", "code" => 404];
         http_response_code($error['code']);
     
         echo json_encode($error);

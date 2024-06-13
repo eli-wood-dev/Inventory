@@ -9,13 +9,14 @@ try{
     $email = $input["email"];
     $password = $input["password"];
     $name = $input["name"];
+    $c_id = $input["c_id"];
 
     $request = $pdo->prepare("SELECT * FROM users WHERE email=? LIMIT 1");
     $request->execute([$email]);
     $response = $request->fetch();
 
     if(!empty($response)){
-        $error = ["message" => "UNAUTHORIZED", "code" => 401];
+        $error = ["message" => "USER ALREADY EXISTS", "code" => 409];
         http_response_code($error['code']);
 
         echo $error["message"];
@@ -23,7 +24,7 @@ try{
     }
 
     $request = $pdo->prepare("INSERT INTO users (email, password, name, role, c_id) VALUES(?, ?, ?, ?, ?)");
-    $request->execute([$email, $password, $name, 5, 1]);//! 5 and 1 are test numbers, they should be changed later
+    $request->execute([$email, $password, $name, 5, $c_id]);//! 5 is a test number, it should be changed later
     $id = $pdo->lastInsertId();
 
     if(empty($id)){
@@ -38,7 +39,7 @@ try{
     $uid = sha1($id . date("h:i:sa"));
     $_SESSION["uid"] = $uid;
     $_SESSION["role"] = 5;//! 5 is a test number, it should be changed later
-    $_SESSION["c_id"] = 1;//! 1 is a test number, it should be changed later
+    $_SESSION["c_id"] = $c_id;
 
     $toSend["uid"] = $uid;
     $toSend["role"] = $_SESSION["role"];

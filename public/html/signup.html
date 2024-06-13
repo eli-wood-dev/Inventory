@@ -15,6 +15,11 @@
         <label for="nameInput">Name: </label><input type="text" name="name" id="nameInput" placeholder="Insert Name Here" required="required"><br/>
         <label for="emailInput">Email: </label><input type="email" name="email" id="emailInput" placeholder="email@example.com" required="required"><br/>
         <label for="passwordInput">Password: </label><input type="password" name="password" id="passwordInput" required="required"><br/>
+        <label for="c_idInput">Company: </label>
+        <select name="c_id" id="c_idInput" required="required">
+            <option value="1">admin</option><!--TODO make these generate from js-->
+        </select>
+        
         <button type="submit" id="confirmSignup">Continue</button>
     </form>
 </body>

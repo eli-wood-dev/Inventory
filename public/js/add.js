@@ -15,6 +15,7 @@ let item = {
 
 window.addEventListener("load", ()=>{
     item.uid = sessionStorage.getItem("uid");
+    item.c_id = sessionStorage.getItem("c_id");
 
     document.querySelectorAll(".required").forEach(element=>{
         addStar(element);

@@ -34,6 +34,8 @@ window.addEventListener("load", ()=>{
             })
             .then(data=>{
                 sessionStorage.setItem("uid", data.uid);
+                sessionStorage.setItem("c_id", data.c_id);
+                sessionStorage.setItem("company", data.company);
 
                 let lastPage = sessionStorage.getItem("last page");
                 // console.log(lastPage);

@@ -24,7 +24,7 @@ try{
     if(isset($response)){
         echo json_encode($response);
     } else{
-        $error = ["message" => "Item not found", "code" => 500];
+        $error = ["message" => "Item not found", "code" => 404];
         http_response_code($error['code']);
     
         echo json_encode($error);

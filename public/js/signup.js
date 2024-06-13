@@ -1,3 +1,7 @@
+let customers = {
+    "1": "admin"
+}
+
 window.addEventListener("load", ()=>{
     document.querySelectorAll(".required").forEach(element=>{
         addStar(element);
@@ -5,7 +9,7 @@ window.addEventListener("load", ()=>{
 
     let form = document.querySelector("#signupForm");
     form.addEventListener("submit", (event)=>{
-        event.preventDefault()
+        event.preventDefault();
         let data = {};
 
         sha256(document.querySelector("#passwordInput").value).then(pass=>{
@@ -19,6 +23,9 @@ window.addEventListener("load", ()=>{
                     }
                 }
             }
+
+            sessionStorage.setItem("c_id", data.c_id);
+            sessionStorage.setItem("company", customers[data.c_id]);
             
             fetch("../../private/signup.php", {
                 method: "POST",

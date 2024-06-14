@@ -123,3 +123,25 @@ function addTrailingZeroes(num, numZeros=2){
     num += "." + toAdd;
     return num;
 }
+
+async function makeFetch(url, data, callback){
+    try{
+        const res = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text);
+        }
+
+        const jsonData = await res.json();
+        return callback(jsonData);
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}

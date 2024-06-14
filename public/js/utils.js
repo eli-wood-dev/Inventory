@@ -124,24 +124,26 @@ function addTrailingZeroes(num, numZeros=2){
     return num;
 }
 
-async function makeFetch(url, data, callback){
-    try{
-        const res = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-
+function makeFetch(url, data, callback){
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(async (res) => {
         if (!res.ok) {
             const text = await res.text();
-            throw new Error(text);
+            return Promise.reject(text);
+        } else {
+            return res.json();
         }
-
-        const jsonData = await res.json();
-        return callback(jsonData);
-    } catch (error) {
-        return Promise.reject(error);
-    }
+    })
+    .then(data=>{
+        return Promise.resolve(callback(data));
+    },
+    (reason) => {
+        return Promise.reject(reason);
+    });
 }
